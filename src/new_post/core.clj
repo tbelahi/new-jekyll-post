@@ -46,6 +46,11 @@
 	[options post-attributes]
 	(str "---\n" "title: " (remove-dashes (:title options)) "\nlayout: " (:layout post-attributes) "\n" "tags:\npublished: " (:published options) "\n---\n"))
 
+(defn make-interactive-header
+	"write a string corresponding to yaml frontmatter necessary for Jekyll to parse the file and publish the post "
+	[options post-attributes input]
+	(str "---\n" "title: " input "\nlayout: " (:layout post-attributes) "\n" "tags:\npublished: " (:published options) "\n---\n"))
+
 (defn -main
 	"main function where the action and logic take place"
   [& args]
@@ -53,11 +58,13 @@
   (let [{:keys [options arguments errors summary]} (parse-opts args cli-options)]
   	;define filename and headers for markdown file from command line options and default values of post-attributes
   	(if (:intervactive options)
-  		(let [filename (make-interactive-title (clojure.string/trim (read-line)))
-  			    ;need for making a make-interactive-header that set titles right
-  			    header   (make-header options post-attributes)]
-  			    (spit filename header))
+      (do
+        (println "Please enter the title for your post:")
+  		  (let [input (clojure.string/trim (read-line))
+              filename (make-interactive-title input)
+  			      header   (make-interactive-header options post-attributes input)]
+  			      (spit filename header)))
   	  (let [filename (make-filename options)
   	      	header   (make-header options post-attributes)]
-  	      	;create the file 
+  	      	;create the file
   	    	  (spit filename header)))))
