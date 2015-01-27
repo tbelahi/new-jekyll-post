@@ -54,6 +54,7 @@
   	;define filename and headers for markdown file from command line options and default values of post-attributes
   	(if (:intervactive options)
   		(let [filename (make-interactive-title (clojure.string/trim (read-line)))
+  			    ;need for making a make-interactive-header that set titles right
   			    header   (make-header options post-attributes)]
   			    (spit filename header))
   	  (let [filename (make-filename options)
