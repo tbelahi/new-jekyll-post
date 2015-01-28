@@ -57,12 +57,10 @@
 	(str "---\n" "title: " input "\nlayout: " (:layout post-attributes) "\n" "tags:\npublished: " (if pb "true" "false") "\n---\n"))
 
 (cli/defclifn -main
+  "generates a new jekyll compliant file for a blog post"
   [t title TITLE str "Title-of-the-post"
    i interactive bool "Set title of the post in interactive mode"
    p published bool "set the published tag to true, default to false"]
-   (println title)
-   (println interactive)
-   (println published)
    (if interactive
      (do
        (println "Please enter the title for your post:")
