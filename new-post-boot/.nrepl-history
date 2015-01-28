@@ -1,0 +1,5 @@
+(type "alo")
+(type 5)
+(def a (int 5) )
+(type a)
+exit
